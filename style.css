@@ -3,7 +3,7 @@
 .shape {
   width: 100px;
   height: 100px;
-  background-color: deeppink;
+  background-color: hsl(328, 100%, 54%);
   /* Positioned from the top-left of the window; setPosition() moves it from there. */
   position: absolute;
   top: 0;
@@ -23,6 +23,8 @@ body {
   padding: 0;
   line-height: 1.5;
   font-family: system-ui, sans-serif;
+    background-color: #10152e;
+
 }
 
 kbd {

@@ -28,5 +28,8 @@
   "github.copilot.chat.codeGeneration.useInstructionFiles": true,
   "javascript.suggest.autoImports": false,
   "javascript.validate.enable": true,
-  "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" }
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "liveServer.settings.port": 5502
 }

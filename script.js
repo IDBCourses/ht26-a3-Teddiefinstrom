@@ -27,7 +27,8 @@ import { createShape } from "./shape.js";
 // Settings variables should contain all of the "fixed" parts of your programs
 // For example: which notes you can play, how fast things move, the tempo.
 const note = "C4"; // the note played when the pointer goes down
-
+const song = ["C4", "C4", "G4", "G4", "A4", "A4", "G4"];
+let count = 0;
 // ---------- State ----------
 // State variables are the parts of your program that change over time.
 // For example: where the pointer is, how fast it's moving, or whether a drone is on.
@@ -50,11 +51,33 @@ function use() {
 
 // ---------- Controls (Event Handlers) ----------
 // Runs every time the pointer goes down: a click, a tap or a pen touch.
-function pointerDown(event) {
-  Tone.start(); // browsers only allow sound after the player has pressed something
+// function pointerDown(event) {
+//   Tone.start(); // browsers only allow sound after the player has pressed something
 
-  console.log("Pointer down at", event.clientX, event.clientY);
-  synth.triggerAttackRelease(note, "8n"); // play the note for an eighth note
+//   console.log("Pointer down at", event.clientX, event.clientY);
+//   synth.triggerAttackRelease(note, "8n"); // play the note for an eighth note
+// }
+
+function pointerEnter(event) {
+  //synth.triggerAttack("D4");
+  console.log("You clicked on the circle", count);
+
+  if (count < song.length) {
+    synth.triggerAttack(song[count]);
+     count++
+  } else {
+    count = 0;
+    synth.triggerAttack(song[count]);
+    count++
+  }
+}
+
+function pointerLeave(event) {
+  //synth.triggerRelease(song[count]);
+  console.log("You left the circle", count);
+
+  synth.triggerRelease(song);
+
 }
 
 // ---------- Setup ----------
@@ -64,11 +87,52 @@ function setup() {
   use(); // start the use loop
 
   // Example: a shape near the middle of the window. Replace it with your own.
-  const example = createShape("example");
-  example.setPosition(0.5, 0.5);
+  const star1 = createShape("star1");
+  star1.setPosition(0.5, 0.5);
+  star1.setColour(260, 80, 81);
+  star1.setSize(100);
+  const star2 = createShape("star2");
+  star2.setPosition(0.4, 0.4);
+  star2.setColour(327, 74, 80);
+  star2.setSize(150);
+  const star3 = createShape("star3");
+  star3.setPosition(0.3, 0.3);
+  star3.setColour(203, 83, 82);
+  star3.setSize(125);
+  const star4 = createShape("star4");
+  star4.setPosition(0.2, 0.2);
+  star4.setColour(43, 100, 82);
+  star4.setSize(110);
 
   // Put your event listener code here
-  window.addEventListener("pointerdown", pointerDown);
+  //window.addEventListener("pointerdown", pointerDown);
+
+  let allShapes = [
+    { name: star1, colour: [260, 80, 81], size: 100 },
+    { name: star2, colour: [327, 74, 80], size: 150 },
+    { name: star3, colour: [203, 83, 82], size: 125 },
+    { name: star4, colour: [43, 100, 82], size: 110 },
+  ];
+
+  allShapes.forEach(function (shape) {
+    shape.name.element.addEventListener("pointerenter", (e) => {
+      pointerEnter(e);
+      shape.name.setColour(
+        shape.colour[0],
+        shape.colour[1],
+        shape.colour[2] + 15,
+      );
+      shape.name.setSize(shape.size + 25);
+    });
+  });
+
+  allShapes.forEach(function (shape) {
+    shape.name.element.addEventListener("pointerleave", (e) => {
+      pointerLeave(e);
+      shape.name.setColour(...shape.colour);
+      shape.name.setSize(shape.size);
+    });
+  });
 }
 
 setup(); // Always remember to call setup()!
