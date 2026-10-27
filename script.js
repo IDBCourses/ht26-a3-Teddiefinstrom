@@ -27,7 +27,14 @@ import { createShape } from "./shape.js";
 // Settings variables should contain all of the "fixed" parts of your programs
 // For example: which notes you can play, how fast things move, the tempo.
 const note = "C4"; // the note played when the pointer goes down
-const song = ["C4", "C4", "G4", "G4", "A4", "A4", "G4"];
+const song =
+["C4", "C4", "G4", "G4", "A4", "A4", "G4",
+  "F4", "F4", "E4", "E4", "D4", "D4", "C4",
+  "G4", "G4", "F4", "F4", "E4", "E4", "D4",
+  "G4", "G4", "F4", "F4", "E4", "E4", "D4",
+  "C4", "C4", "G4", "G4", "A4", "A4", "G4",
+  "F4", "F4", "E4", "E4", "D4", "D4", "C4"
+];
 let count = 0;
 // ---------- State ----------
 // State variables are the parts of your program that change over time.
@@ -64,11 +71,11 @@ function pointerEnter(event) {
 
   if (count < song.length) {
     synth.triggerAttack(song[count]);
-     count++
+    count++;
   } else {
     count = 0;
     synth.triggerAttack(song[count]);
-    count++
+    count++;
   }
 }
 
@@ -77,7 +84,6 @@ function pointerLeave(event) {
   console.log("You left the circle", count);
 
   synth.triggerRelease(song);
-
 }
 
 // ---------- Setup ----------
@@ -87,50 +93,85 @@ function setup() {
   use(); // start the use loop
 
   // Example: a shape near the middle of the window. Replace it with your own.
-  const star1 = createShape("star1");
-  star1.setPosition(0.5, 0.5);
-  star1.setColour(260, 80, 81);
-  star1.setSize(100);
-  const star2 = createShape("star2");
-  star2.setPosition(0.4, 0.4);
-  star2.setColour(327, 74, 80);
-  star2.setSize(150);
-  const star3 = createShape("star3");
-  star3.setPosition(0.3, 0.3);
-  star3.setColour(203, 83, 82);
-  star3.setSize(125);
-  const star4 = createShape("star4");
-  star4.setPosition(0.2, 0.2);
-  star4.setColour(43, 100, 82);
-  star4.setSize(110);
+  // const star1 = createShape("star1");
+  // star1.setPosition(0.1, 0.5)
+  // .setColour(260, 80, 81)
+  // .setSize(100);
+  // const star2 = createShape("star2");
+  // star2.setPosition(0.25, 0.5)
+  // .setColour(327, 74, 80)
+  // .setSize(150);
+  // const star3 = createShape("star3");
+  // star3.setPosition(0.43, 0.5)
+  // .setColour(203, 83, 82)
+  // .setSize(125);
+  // const star4 = createShape("star4");
+  // star4.setPosition(0.6, 0.5)
+  // .setColour(43, 100, 82)
+  // .setSize(110);
+  // const star5 = createShape("star5");
+  // star5.setPosition(0.75, 0.5)
+  // .setColour(158, 55, 78)
+  // .setSize(135);
 
   // Put your event listener code here
   //window.addEventListener("pointerdown", pointerDown);
 
+  // let allShapes = [
+  //   { name: star1, colour: [260, 80, 81], size: 100 },
+  //   { name: star2, colour: [327, 74, 80], size: 150 },
+  //   { name: star3, colour: [203, 83, 82], size: 125 },
+  //   { name: star4, colour: [43, 100, 82], size: 110 },
+  //   { name: star5, colour: [158, 55, 78], size: 135 },
+  // ];
+
   let allShapes = [
-    { name: star1, colour: [260, 80, 81], size: 100 },
-    { name: star2, colour: [327, 74, 80], size: 150 },
-    { name: star3, colour: [203, 83, 82], size: 125 },
-    { name: star4, colour: [43, 100, 82], size: 110 },
+    // Octave 6
+    { id: "star1", colour: [260, 80, 81], position: [0.1, 0.16], size: 135 },
+    { id: "star2", colour: [327, 74, 80], position: [0.25, 0.16], size: 135 },
+    { id: "star3", colour: [203, 83, 82], position: [0.43, 0.16], size: 135 },
+    { id: "star4", colour: [43, 100, 82], position: [0.6, 0.16], size: 135 },
+    { id: "star5", colour: [158, 55, 78], position: [0.75, 0.16], size: 135 },
+
+    // Octave 4
+    { id: "star6", colour: [260, 80, 81], position: [0.1, 0.45], size: 100 },
+    { id: "star7", colour: [327, 74, 80], position: [0.25, 0.45], size: 150 },
+    { id: "star8", colour: [203, 83, 82], position: [0.43, 0.45], size: 125 },
+    { id: "star9", colour: [43, 100, 82], position: [0.6, 0.45], size: 110 },
+    { id: "star10", colour: [158, 55, 78], position: [0.75, 0.45], size: 135 },
+
+      // Octave 2
+    { id: "star11", colour: [260, 80, 81], position: [0.1, 0.72], size: 100 },
+    { id: "star12", colour: [327, 74, 80], position: [0.25, 0.72], size: 150 },
+    { id: "star13", colour: [203, 83, 82], position: [0.43, 0.72], size: 125 },
+    { id: "star14", colour: [43, 100, 82], position: [0.6, 0.72], size: 110 },
+    { id: "star115", colour: [158, 55, 78], position: [0.75, 0.72], size: 135 },
   ];
 
+  for (const shape of allShapes) {
+    shape.star = createShape(shape.id)
+      .setColour(shape.colour[0], shape.colour[1], shape.colour[2])
+      .setPosition(shape.position[0], shape.position[1])
+      .setSize(shape.size);
+  }
+
   allShapes.forEach(function (shape) {
-    shape.name.element.addEventListener("pointerenter", (e) => {
+    shape.star.element.addEventListener("pointerenter", (e) => {
       pointerEnter(e);
-      shape.name.setColour(
+      shape.star.setColour(
         shape.colour[0],
         shape.colour[1],
         shape.colour[2] + 15,
       );
-      shape.name.setSize(shape.size + 25);
+      shape.star.setSize(shape.size + 25);
     });
   });
 
   allShapes.forEach(function (shape) {
-    shape.name.element.addEventListener("pointerleave", (e) => {
+    shape.star.element.addEventListener("pointerleave", (e) => {
       pointerLeave(e);
-      shape.name.setColour(...shape.colour);
-      shape.name.setSize(shape.size);
+      shape.star.setColour(...shape.colour);
+      shape.star.setSize(shape.size);
     });
   });
 }
