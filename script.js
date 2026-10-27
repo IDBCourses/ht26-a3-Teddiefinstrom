@@ -26,14 +26,23 @@ import { createShape } from "./shape.js";
 // ---------- Settings ----------
 // Settings variables should contain all of the "fixed" parts of your programs
 // For example: which notes you can play, how fast things move, the tempo.
-const note = "C4"; // the note played when the pointer goes down
-const song =
-["C4", "C4", "G4", "G4", "A4", "A4", "G4",
-  "F4", "F4", "E4", "E4", "D4", "D4", "C4",
-  "G4", "G4", "F4", "F4", "E4", "E4", "D4",
-  "G4", "G4", "F4", "F4", "E4", "E4", "D4",
-  "C4", "C4", "G4", "G4", "A4", "A4", "G4",
-  "F4", "F4", "E4", "E4", "D4", "D4", "C4"
+const note = "C"; // the note played when the pointer goes down
+// let song =
+// ["C4", "C4", "G4", "G4", "A4", "A4", "G4",
+//   "F4", "F4", "E4", "E4", "D4", "D4", "C4",
+//   "G4", "G4", "F4", "F4", "E4", "E4", "D4",
+//   "G4", "G4", "F4", "F4", "E4", "E4", "D4",
+//   "C4", "C4", "G4", "G4", "A4", "A4", "G4",
+//   "F4", "F4", "E4", "E4", "D4", "D4", "C4"
+// ];
+
+let song =
+["C", "C", "G", "G", "A", "A", "G",
+  "F", "F", "E", "E", "D", "D", "C",
+  "G", "G", "F", "F", "E", "E", "D",
+  "G", "G", "F", "F", "E", "E", "D",
+  "C", "C", "G", "G", "A", "A", "G",
+  "F", "F", "E", "E", "D", "D", "C"
 ];
 let count = 0;
 // ---------- State ----------
@@ -43,7 +52,6 @@ let count = 0;
 // ---------- Sound ----------
 // Make the instruments and plug them into the speakers.
 const synth = new Tone.PolySynth(Tone.Synth).toDestination(); // can play several notes at once
-
 // ---------- Update ----------
 // Update the state. This is called every 100ms.
 function update() {
@@ -56,6 +64,7 @@ function use() {
   setTimeout(use, 100); // call use() again in 100 milliseconds
 }
 
+console.log(note + "4");
 // ---------- Controls (Event Handlers) ----------
 // Runs every time the pointer goes down: a click, a tap or a pen touch.
 // function pointerDown(event) {
@@ -65,25 +74,26 @@ function use() {
 //   synth.triggerAttackRelease(note, "8n"); // play the note for an eighth note
 // }
 
-function pointerEnter(event) {
+function pointerEnter(event, octave) {
   //synth.triggerAttack("D4");
   console.log("You clicked on the circle", count);
 
   if (count < song.length) {
-    synth.triggerAttack(song[count]);
+    synth.triggerAttackRelease(song[count] + octave, "4n");
     count++;
   } else {
     count = 0;
-    synth.triggerAttack(song[count]);
+    synth.triggerAttackRelease(song[count] + octave, "4n");
     count++;
   }
 }
 
 function pointerLeave(event) {
+
   //synth.triggerRelease(song[count]);
   console.log("You left the circle", count);
 
-  synth.triggerRelease(song);
+
 }
 
 // ---------- Setup ----------
@@ -127,25 +137,25 @@ function setup() {
 
   let allShapes = [
     // Octave 6
-    { id: "star1", colour: [260, 80, 81], position: [0.1, 0.16], size: 135 },
-    { id: "star2", colour: [327, 74, 80], position: [0.25, 0.16], size: 135 },
-    { id: "star3", colour: [203, 83, 82], position: [0.43, 0.16], size: 135 },
-    { id: "star4", colour: [43, 100, 82], position: [0.6, 0.16], size: 135 },
-    { id: "star5", colour: [158, 55, 78], position: [0.75, 0.16], size: 135 },
+    { id: "star1", colour: [220, 65, 65], position: [0.1, 0.16], size: 135, octave: 6},
+    { id: "star2", colour: [45, 95, 78], position: [0.25, 0.16], size: 135, octave: 6 },
+    { id: "star3", colour: [235, 55, 72], position: [0.43, 0.16], size: 135, octave: 6 },
+    { id: "star4", colour: [52, 90, 72], position: [0.6, 0.16], size: 135, octave: 6 },
+    { id: "star5", colour: [205, 75, 78], position: [0.75, 0.16], size: 135, octave: 6 },
 
     // Octave 4
-    { id: "star6", colour: [260, 80, 81], position: [0.1, 0.45], size: 100 },
-    { id: "star7", colour: [327, 74, 80], position: [0.25, 0.45], size: 150 },
-    { id: "star8", colour: [203, 83, 82], position: [0.43, 0.45], size: 125 },
-    { id: "star9", colour: [43, 100, 82], position: [0.6, 0.45], size: 110 },
-    { id: "star10", colour: [158, 55, 78], position: [0.75, 0.45], size: 135 },
+    { id: "star6", colour: [220, 65, 65], position: [0.1, 0.45], size: 100, octave: 4 },
+    { id: "star7", colour: [45, 95, 78], position: [0.25, 0.45], size: 150, octave: 4  },
+    { id: "star8", colour: [235, 55, 72], position: [0.43, 0.45], size: 125, octave: 4  },
+    { id: "star9", colour: [52, 90, 72], position: [0.6, 0.45], size: 110, octave: 4  },
+    { id: "star10", colour: [205, 75, 78], position: [0.75, 0.45], size: 135, octave: 4  },
 
       // Octave 2
-    { id: "star11", colour: [260, 80, 81], position: [0.1, 0.72], size: 100 },
-    { id: "star12", colour: [327, 74, 80], position: [0.25, 0.72], size: 150 },
-    { id: "star13", colour: [203, 83, 82], position: [0.43, 0.72], size: 125 },
-    { id: "star14", colour: [43, 100, 82], position: [0.6, 0.72], size: 110 },
-    { id: "star115", colour: [158, 55, 78], position: [0.75, 0.72], size: 135 },
+    { id: "star11", colour: [220, 65, 65], position: [0.1, 0.72], size: 100, octave: 3 },
+    { id: "star12", colour: [45, 95, 78], position: [0.25, 0.72], size: 150, octave: 3 },
+    { id: "star13", colour: [235, 55, 72], position: [0.43, 0.72], size: 125, octave: 3 },
+    { id: "star14", colour: [52, 90, 72], position: [0.6, 0.72], size: 110, octave: 3 },
+    { id: "star15", colour: [205, 75, 78], position: [0.75, 0.72], size: 135, octave: 3 },
   ];
 
   for (const shape of allShapes) {
@@ -157,7 +167,7 @@ function setup() {
 
   allShapes.forEach(function (shape) {
     shape.star.element.addEventListener("pointerenter", (e) => {
-      pointerEnter(e);
+      pointerEnter(e, shape.octave);
       shape.star.setColour(
         shape.colour[0],
         shape.colour[1],
