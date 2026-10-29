@@ -27,28 +27,59 @@ import { createShape } from "./shape.js";
 // Settings variables should contain all of the "fixed" parts of your programs
 // For example: which notes you can play, how fast things move, the tempo.
 const note = "C"; // the note played when the pointer goes down
-// let song =
-// ["C4", "C4", "G4", "G4", "A4", "A4", "G4",
-//   "F4", "F4", "E4", "E4", "D4", "D4", "C4",
-//   "G4", "G4", "F4", "F4", "E4", "E4", "D4",
-//   "G4", "G4", "F4", "F4", "E4", "E4", "D4",
-//   "C4", "C4", "G4", "G4", "A4", "A4", "G4",
-//   "F4", "F4", "E4", "E4", "D4", "D4", "C4"
-// ];
 
-let song =
-["C", "C", "G", "G", "A", "A", "G",
-  "F", "F", "E", "E", "D", "D", "C",
-  "G", "G", "F", "F", "E", "E", "D",
-  "G", "G", "F", "F", "E", "E", "D",
-  "C", "C", "G", "G", "A", "A", "G",
-  "F", "F", "E", "E", "D", "D", "C"
-];
-let count = 0;
 // ---------- State ----------
 // State variables are the parts of your program that change over time.
 // For example: where the pointer is, how fast it's moving, or whether a drone is on.
+let song = [
+  "C",
+  "C",
+  "G",
+  "G",
+  "A",
+  "A",
+  "G",
+  "F",
+  "F",
+  "E",
+  "E",
+  "D",
+  "D",
+  "C",
+  "G",
+  "G",
+  "F",
+  "F",
+  "E",
+  "E",
+  "D",
+  "G",
+  "G",
+  "F",
+  "F",
+  "E",
+  "E",
+  "D",
+  "C",
+  "C",
+  "G",
+  "G",
+  "A",
+  "A",
+  "G",
+  "F",
+  "F",
+  "E",
+  "E",
+  "D",
+  "D",
+  "C",
+];
 
+let count = 0;
+let lastX = 0;
+let lastY = 0;
+let lastTime = 0;
 // ---------- Sound ----------
 // Make the instruments and plug them into the speakers.
 const synth = new Tone.PolySynth(Tone.Synth).toDestination(); // can play several notes at once
@@ -65,14 +96,39 @@ function use() {
 }
 
 console.log(note + "4");
+
 // ---------- Controls (Event Handlers) ----------
 // Runs every time the pointer goes down: a click, a tap or a pen touch.
-// function pointerDown(event) {
-//   Tone.start(); // browsers only allow sound after the player has pressed something
 
-//   console.log("Pointer down at", event.clientX, event.clientY);
-//   synth.triggerAttackRelease(note, "8n"); // play the note for an eighth note
-// }
+function pointerMove(event) {
+  // Position of the mouse in the X and Y axis
+  let currentPosX = event.clientX / window.innerWidth;
+  let currentPosY = event.clientY / window.innerHeight;
+  // Variable to save current time of position
+  let currentTime = event.timeStamp;
+  // Distance between last and current position
+  let distance = Math.hypot(currentPosX - lastX, currentPosY - lastY);
+
+  // Seconds it took to move between last and current position
+  let seconds = (currentTime - lastTime) / 1000;
+  // current position becomes to last position
+  let speed = distance / seconds;
+  lastX = currentPosX;
+  lastY = currentPosY;
+  lastTime = currentTime;
+
+  //console.log("Distance:", distance);
+  console.log(currentPosX, currentPosY);
+  console.log("Speed:", speed);
+
+}
+
+function pointerDown(event) {
+  Tone.start(); // browsers only allow sound after the player has pressed something
+
+  console.log("Pointer down at", event.clientX, event.clientY);
+  //synth.triggerAttackRelease(note, "8n"); // play the note for an eighth note
+}
 
 function pointerEnter(event, octave) {
   //synth.triggerAttack("D4");
@@ -89,11 +145,8 @@ function pointerEnter(event, octave) {
 }
 
 function pointerLeave(event) {
-
   //synth.triggerRelease(song[count]);
   console.log("You left the circle", count);
-
-
 }
 
 // ---------- Setup ----------
@@ -102,60 +155,117 @@ function setup() {
   update(); // start the update loop
   use(); // start the use loop
 
-  // Example: a shape near the middle of the window. Replace it with your own.
-  // const star1 = createShape("star1");
-  // star1.setPosition(0.1, 0.5)
-  // .setColour(260, 80, 81)
-  // .setSize(100);
-  // const star2 = createShape("star2");
-  // star2.setPosition(0.25, 0.5)
-  // .setColour(327, 74, 80)
-  // .setSize(150);
-  // const star3 = createShape("star3");
-  // star3.setPosition(0.43, 0.5)
-  // .setColour(203, 83, 82)
-  // .setSize(125);
-  // const star4 = createShape("star4");
-  // star4.setPosition(0.6, 0.5)
-  // .setColour(43, 100, 82)
-  // .setSize(110);
-  // const star5 = createShape("star5");
-  // star5.setPosition(0.75, 0.5)
-  // .setColour(158, 55, 78)
-  // .setSize(135);
-
-  // Put your event listener code here
-  //window.addEventListener("pointerdown", pointerDown);
-
-  // let allShapes = [
-  //   { name: star1, colour: [260, 80, 81], size: 100 },
-  //   { name: star2, colour: [327, 74, 80], size: 150 },
-  //   { name: star3, colour: [203, 83, 82], size: 125 },
-  //   { name: star4, colour: [43, 100, 82], size: 110 },
-  //   { name: star5, colour: [158, 55, 78], size: 135 },
-  // ];
-
   let allShapes = [
     // Octave 6
-    { id: "star1", colour: [220, 65, 65], position: [0.1, 0.16], size: 135, octave: 6},
-    { id: "star2", colour: [45, 95, 78], position: [0.25, 0.16], size: 135, octave: 6 },
-    { id: "star3", colour: [235, 55, 72], position: [0.43, 0.16], size: 135, octave: 6 },
-    { id: "star4", colour: [52, 90, 72], position: [0.6, 0.16], size: 135, octave: 6 },
-    { id: "star5", colour: [205, 75, 78], position: [0.75, 0.16], size: 135, octave: 6 },
+    {
+      id: "star1",
+      colour: [220, 65, 65],
+      position: [0.1, 0.16],
+      size: 135,
+      octave: 6,
+    },
+    {
+      id: "star2",
+      colour: [45, 95, 78],
+      position: [0.25, 0.16],
+      size: 135,
+      octave: 6,
+    },
+    {
+      id: "star3",
+      colour: [235, 55, 72],
+      position: [0.43, 0.16],
+      size: 135,
+      octave: 6,
+    },
+    {
+      id: "star4",
+      colour: [52, 90, 72],
+      position: [0.6, 0.16],
+      size: 135,
+      octave: 6,
+    },
+    {
+      id: "star5",
+      colour: [205, 75, 78],
+      position: [0.75, 0.16],
+      size: 135,
+      octave: 6,
+    },
 
     // Octave 4
-    { id: "star6", colour: [220, 65, 65], position: [0.1, 0.45], size: 100, octave: 4 },
-    { id: "star7", colour: [45, 95, 78], position: [0.25, 0.45], size: 150, octave: 4  },
-    { id: "star8", colour: [235, 55, 72], position: [0.43, 0.45], size: 125, octave: 4  },
-    { id: "star9", colour: [52, 90, 72], position: [0.6, 0.45], size: 110, octave: 4  },
-    { id: "star10", colour: [205, 75, 78], position: [0.75, 0.45], size: 135, octave: 4  },
+    {
+      id: "star6",
+      colour: [220, 65, 65],
+      position: [0.1, 0.45],
+      size: 100,
+      octave: 5,
+    },
+    {
+      id: "star7",
+      colour: [45, 95, 78],
+      position: [0.25, 0.45],
+      size: 150,
+      octave: 5,
+    },
+    {
+      id: "star8",
+      colour: [235, 55, 72],
+      position: [0.43, 0.45],
+      size: 125,
+      octave: 5,
+    },
+    {
+      id: "star9",
+      colour: [52, 90, 72],
+      position: [0.6, 0.45],
+      size: 110,
+      octave: 5,
+    },
+    {
+      id: "star10",
+      colour: [205, 75, 78],
+      position: [0.75, 0.45],
+      size: 135,
+      octave: 5,
+    },
 
-      // Octave 2
-    { id: "star11", colour: [220, 65, 65], position: [0.1, 0.72], size: 100, octave: 3 },
-    { id: "star12", colour: [45, 95, 78], position: [0.25, 0.72], size: 150, octave: 3 },
-    { id: "star13", colour: [235, 55, 72], position: [0.43, 0.72], size: 125, octave: 3 },
-    { id: "star14", colour: [52, 90, 72], position: [0.6, 0.72], size: 110, octave: 3 },
-    { id: "star15", colour: [205, 75, 78], position: [0.75, 0.72], size: 135, octave: 3 },
+    // Octave 3
+    {
+      id: "star11",
+      colour: [220, 65, 65],
+      position: [0.1, 0.72],
+      size: 100,
+      octave: 4,
+    },
+    {
+      id: "star12",
+      colour: [45, 95, 78],
+      position: [0.25, 0.72],
+      size: 150,
+      octave: 4,
+    },
+    {
+      id: "star13",
+      colour: [235, 55, 72],
+      position: [0.43, 0.72],
+      size: 125,
+      octave: 4,
+    },
+    {
+      id: "star14",
+      colour: [52, 90, 72],
+      position: [0.6, 0.72],
+      size: 110,
+      octave: 4,
+    },
+    {
+      id: "star15",
+      colour: [205, 75, 78],
+      position: [0.75, 0.72],
+      size: 135,
+      octave: 4,
+    },
   ];
 
   for (const shape of allShapes) {
@@ -164,6 +274,12 @@ function setup() {
       .setPosition(shape.position[0], shape.position[1])
       .setSize(shape.size);
   }
+
+  // Put your event listener code here
+
+  window.addEventListener("pointerdown", pointerDown);
+
+  window.addEventListener("pointermove", pointerMove);
 
   allShapes.forEach(function (shape) {
     shape.star.element.addEventListener("pointerenter", (e) => {
