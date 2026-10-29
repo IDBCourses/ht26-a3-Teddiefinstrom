@@ -26,55 +26,55 @@ import { createShape } from "./shape.js";
 // ---------- Settings ----------
 // Settings variables should contain all of the "fixed" parts of your programs
 // For example: which notes you can play, how fast things move, the tempo.
-const note = "C"; // the note played when the pointer goes down
+//const note = "C"; // the note played when the pointer goes down
 
 // ---------- State ----------
 // State variables are the parts of your program that change over time.
 // For example: where the pointer is, how fast it's moving, or whether a drone is on.
-let song = [
-  "C",
-  "C",
-  "G",
-  "G",
-  "A",
-  "A",
-  "G",
-  "F",
-  "F",
-  "E",
-  "E",
-  "D",
-  "D",
-  "C",
-  "G",
-  "G",
-  "F",
-  "F",
-  "E",
-  "E",
-  "D",
-  "G",
-  "G",
-  "F",
-  "F",
-  "E",
-  "E",
-  "D",
-  "C",
-  "C",
-  "G",
-  "G",
-  "A",
-  "A",
-  "G",
-  "F",
-  "F",
-  "E",
-  "E",
-  "D",
-  "D",
-  "C",
-];
+// let song = [
+//   "C",
+//   "C",
+//   "G",
+//   "G",
+//   "A",
+//   "A",
+//   "G",
+//   "F",
+//   "F",
+//   "E",
+//   "E",
+//   "D",
+//   "D",
+//   "C",
+//   "G",
+//   "G",
+//   "F",
+//   "F",
+//   "E",
+//   "E",
+//   "D",
+//   "G",
+//   "G",
+//   "F",
+//   "F",
+//   "E",
+//   "E",
+//   "D",
+//   "C",
+//   "C",
+//   "G",
+//   "G",
+//   "A",
+//   "A",
+//   "G",
+//   "F",
+//   "F",
+//   "E",
+//   "E",
+//   "D",
+//   "D",
+//   "C",
+// ];
 
 let count = 0;
 let lastX = 0;
@@ -94,8 +94,6 @@ function update() {
 function use() {
   setTimeout(use, 100); // call use() again in 100 milliseconds
 }
-
-console.log(note + "4");
 
 // ---------- Controls (Event Handlers) ----------
 // Runs every time the pointer goes down: a click, a tap or a pen touch.
@@ -120,7 +118,6 @@ function pointerMove(event) {
   //console.log("Distance:", distance);
   console.log(currentPosX, currentPosY);
   console.log("Speed:", speed);
-
 }
 
 function pointerDown(event) {
@@ -130,18 +127,20 @@ function pointerDown(event) {
   //synth.triggerAttackRelease(note, "8n"); // play the note for an eighth note
 }
 
-function pointerEnter(event, octave) {
+function pointerEnter(event, note, octave) {
   //synth.triggerAttack("D4");
   console.log("You clicked on the circle", count);
 
-  if (count < song.length) {
-    synth.triggerAttackRelease(song[count] + octave, "4n");
-    count++;
-  } else {
-    count = 0;
-    synth.triggerAttackRelease(song[count] + octave, "4n");
-    count++;
-  }
+  synth.triggerAttackRelease(note + octave, "4n");
+
+  // if (count < song.length) {
+  //   synth.triggerAttackRelease(song[count] + octave, "4n");
+  //   count++;
+  // } else {
+  //   count = 0;
+  //   synth.triggerAttackRelease(song[count] + octave, "4n");
+  //   count++;
+  // }
 }
 
 function pointerLeave(event) {
@@ -162,6 +161,7 @@ function setup() {
       colour: [220, 65, 65],
       position: [0.1, 0.16],
       size: 135,
+      note: "C",
       octave: 6,
     },
     {
@@ -169,6 +169,7 @@ function setup() {
       colour: [45, 95, 78],
       position: [0.25, 0.16],
       size: 135,
+      note: "D",
       octave: 6,
     },
     {
@@ -176,6 +177,7 @@ function setup() {
       colour: [235, 55, 72],
       position: [0.43, 0.16],
       size: 135,
+      note: "E",
       octave: 6,
     },
     {
@@ -183,6 +185,7 @@ function setup() {
       colour: [52, 90, 72],
       position: [0.6, 0.16],
       size: 135,
+      note: "G",
       octave: 6,
     },
     {
@@ -190,6 +193,7 @@ function setup() {
       colour: [205, 75, 78],
       position: [0.75, 0.16],
       size: 135,
+      note: "A",
       octave: 6,
     },
 
@@ -199,6 +203,7 @@ function setup() {
       colour: [220, 65, 65],
       position: [0.1, 0.45],
       size: 100,
+      note: "C",
       octave: 5,
     },
     {
@@ -206,6 +211,7 @@ function setup() {
       colour: [45, 95, 78],
       position: [0.25, 0.45],
       size: 150,
+      note: "D",
       octave: 5,
     },
     {
@@ -213,6 +219,7 @@ function setup() {
       colour: [235, 55, 72],
       position: [0.43, 0.45],
       size: 125,
+      note: "E",
       octave: 5,
     },
     {
@@ -220,6 +227,7 @@ function setup() {
       colour: [52, 90, 72],
       position: [0.6, 0.45],
       size: 110,
+      note: "G",
       octave: 5,
     },
     {
@@ -227,6 +235,7 @@ function setup() {
       colour: [205, 75, 78],
       position: [0.75, 0.45],
       size: 135,
+      note: "A",
       octave: 5,
     },
 
@@ -236,6 +245,7 @@ function setup() {
       colour: [220, 65, 65],
       position: [0.1, 0.72],
       size: 100,
+      note: "C",
       octave: 4,
     },
     {
@@ -243,6 +253,7 @@ function setup() {
       colour: [45, 95, 78],
       position: [0.25, 0.72],
       size: 150,
+      note: "D",
       octave: 4,
     },
     {
@@ -250,6 +261,7 @@ function setup() {
       colour: [235, 55, 72],
       position: [0.43, 0.72],
       size: 125,
+      note: "E",
       octave: 4,
     },
     {
@@ -257,6 +269,7 @@ function setup() {
       colour: [52, 90, 72],
       position: [0.6, 0.72],
       size: 110,
+      note: "G",
       octave: 4,
     },
     {
@@ -264,6 +277,7 @@ function setup() {
       colour: [205, 75, 78],
       position: [0.75, 0.72],
       size: 135,
+      note: "A",
       octave: 4,
     },
   ];
@@ -283,7 +297,7 @@ function setup() {
 
   allShapes.forEach(function (shape) {
     shape.star.element.addEventListener("pointerenter", (e) => {
-      pointerEnter(e, shape.octave);
+      pointerEnter(e, shape.note, shape.octave);
       shape.star.setColour(
         shape.colour[0],
         shape.colour[1],
