@@ -3,20 +3,20 @@
 **Play it here:** <!-- Paste your GitHub Pages link here, e.g. https://idbcourses.github.io/your-repo-name/ -->
 
 **Name:** <!-- Your name and MAU ID -->
-
+Teddie Finström as9636
 <!-- One or two sentences: what kind of instrument is it, and what is it like to play? -->
-
+Shapes that plays Twinkle Little Star when moving over them with the pointer
 ## How to play
 
 <!-- Fill in the table with a row for everything the player can do with the pointer: clicking, moving slowly or fast, moving in circles, holding still... Say what happens to the sound and to the shapes. If you added keys, give them rows too. -->
 
-| When you...  | The sound...                         | The shapes... |
-| ------------ | ------------------------------------ | ------------- |
-| Click or tap | Plays a C4 (the example: replace it) | Nothing yet   |
-|              |                                      |               |
+| When you...  | The sound...                                                          | The shapes... |
+| ------------ | ------------------------------------                                  | ------------- |
+| Click or tap | Changes the octave between 4, 5 anf 6                                 | Outside of the shapes
+| Pointer      |  Move the pointer over the shapes and they will react and play notes  | All of the shapes    |
+ Pointer speed.  The faster the pointer moves within a shape, the bigger, brighter and louder the shape becomes
 
 <!-- Anything else a player needs to know: how to get started, a good thing to try first. -->
-
 ---
 
 ## About this assignment

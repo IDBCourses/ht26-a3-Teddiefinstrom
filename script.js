@@ -45,6 +45,7 @@ let addLightness = 0;
 // Make the instruments and plug them into the speakers.
 const synth = new Tone.PolySynth(Tone.Synth).toDestination(); // can play several notes at once
 
+// Twinkle Twinkle little star
 const song = [
   "C",
   "C",
@@ -89,6 +90,8 @@ const song = [
   "D",
   "C",
 ];
+
+// Shapes or "stars"
 const allShapes = [
   {
     id: "star1",
@@ -185,10 +188,12 @@ const allShapes = [
 // ---------- Use, Update ----------
 // Use the state to make sound and move shapes. This is called every 100ms.
 function updateAndUse() {
+  // Update state based on the pointer's speed
   speed *= 0.9;
   addSize = Math.min(60, 20 + speed * 10);
   addLightness = Math.min(100, speed * 10);
 
+  // Change the active shape's colour and size based on speed
   if (activeShape !== null) {
     activeShape.star.setColour(
       activeShape.colour[0],
@@ -198,7 +203,8 @@ function updateAndUse() {
     activeShape.star.setSize(activeShape.size + addSize);
   }
 
-  synth.volume.rampTo(Math.min(0, -12 + speed * 3), 0.1);
+  // Adjust the volume based on the pointer's speed
+  synth.volume.rampTo(Math.min(0, -12 + speed * 3));
 
   setTimeout(updateAndUse, 100); // call use() again in 100 milliseconds
 }
@@ -210,30 +216,26 @@ function pointerMove(event) {
   // Position of the mouse in the X and Y axis
   let currentPosX = event.clientX / window.innerWidth;
   let currentPosY = event.clientY / window.innerHeight;
-  // Variable to save current time of position
+  // Get the current time
   let currentTime = event.timeStamp;
-  // Distance between last and current position
+  // Calculate distance between pervious and current position
   let distance = Math.hypot(currentPosX - lastX, currentPosY - lastY);
-
   // Seconds it took to move between last and current position
   let seconds = (currentTime - lastTime) / 1000;
-  // current position becomes to last position
-  speed = distance / seconds;
-
+  // Calculate speed if there is a previous timestamp
   if (lastTime !== 0 && seconds > 0) {
     speed = distance / seconds;
   }
-
+  // Save the current position and time for the next pointermove event
   lastX = currentPosX;
   lastY = currentPosY;
   lastTime = currentTime;
-
-  console.log("Speed:", speed, "Octave:", octave);
 }
 
 function pointerDown(event) {
-  Tone.start(); // browsers only allow sound after the player has pressed something
-  console.log("Pointer down at", event.clientX, event.clientY);
+  // browsers only allow sound after the player has pressed something
+  Tone.start();
+  // Change octave between 4, 5 and 6
   if (isPlaying === false) {
     if (octave < 6) {
       octave++;
@@ -241,35 +243,36 @@ function pointerDown(event) {
       octave = 4;
     }
   }
-  console.log("Octave", octave);
 }
 
 function pointerEnter(event) {
+  // Set isPlaying to true to prevent changing octave while a note is playing
   isPlaying = true;
-
+  // Play the next note in the song and increase the counter
   if (count < song.length) {
     synth.triggerAttack(song[count] + octave);
     count++;
   } else {
+    // Restart the song when all notes have been played
     count = 0;
     synth.triggerAttack(song[count] + octave);
     count++;
   }
-
-  console.log("You entered the circle");
 }
 
 function pointerLeave(event) {
+  // Set isPlaying to false when the pointer leaves a shape
   isPlaying = false;
+  // Stop playing the current note when leaving the shape
   synth.triggerRelease(song[count - 1] + octave);
-  console.log("You left the circle");
 }
 
 // ---------- Setup ----------
 // Setup is run once, at the start of the program. It sets everything up for us!
 function setup() {
-  updateAndUse(); // start the use loop
+  updateAndUse(); // start the updateAndUse loop
 
+  // Loop through the allShapes array and create shapes on the screen
   for (const shape of allShapes) {
     shape.star = createShape(shape.id)
       .setColour(shape.colour[0], shape.colour[1], shape.colour[2])
@@ -278,9 +281,12 @@ function setup() {
   }
 
   // Put your event listener code here
+// Change the octave when the pointer is pressed down
   window.addEventListener("pointerdown", pointerDown);
+// Track pointer movement to calculate its position and speed
   window.addEventListener("pointermove", pointerMove);
 
+  // When entering a shape, trigger pointerEnter and set the active shape
   allShapes.forEach(function (shape) {
     shape.star.element.addEventListener("pointerenter", (e) => {
       pointerEnter(e);
@@ -288,6 +294,7 @@ function setup() {
     });
   });
 
+  // When leaving a shape, trigger pointerLeave, clear the active shape
   allShapes.forEach(function (shape) {
     shape.star.element.addEventListener("pointerleave", (e) => {
       pointerLeave(e);
