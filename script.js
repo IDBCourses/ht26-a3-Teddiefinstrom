@@ -204,7 +204,7 @@ function updateAndUse() {
   }
 
   // Adjust the volume based on the pointer's speed
-  synth.volume.rampTo(Math.min(0, -12 + speed * 3));
+  synth.volume.rampTo(Math.min(3, -12 + speed * 4));
 
   setTimeout(updateAndUse, 100); // call use() again in 100 milliseconds
 }

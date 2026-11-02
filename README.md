@@ -1,6 +1,6 @@
 # My instrument
 
-**Play it here:** <!-- Paste your GitHub Pages link here, e.g. https://idbcourses.github.io/your-repo-name/ -->
+**Play it here:** <!-- Paste your GitHub Pages link here, https://idbcourses.github.io/ht26-a3-Teddiefinstrom/ -->
 
 **Name:** <!-- Your name and MAU ID -->
 Teddie Finström as9636
