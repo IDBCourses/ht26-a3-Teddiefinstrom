@@ -5,16 +5,18 @@
 **Name:** <!-- Your name and MAU ID -->
 Teddie Finström as9636
 <!-- One or two sentences: what kind of instrument is it, and what is it like to play? -->
-Shapes that plays Twinkle Little Star when moving over them with the pointer
+Shapes that play "Twinkle Twinkle Little Star" when moving the pointer over them.
 ## How to play
 
 <!-- Fill in the table with a row for everything the player can do with the pointer: clicking, moving slowly or fast, moving in circles, holding still... Say what happens to the sound and to the shapes. If you added keys, give them rows too. -->
 
-| When you...  | The sound...                                                          | The shapes... |
-| ------------ | ------------------------------------                                  | ------------- |
-| Click or tap | Changes the octave between 4, 5 anf 6                                 | Outside of the shapes
-| Pointer      |  Move the pointer over the shapes and they will react and play notes  | All of the shapes    |
- Pointer speed.  The faster the pointer moves within a shape, the bigger, brighter and louder the shape becomes
+| When you...                         | The sound...                           | The shapes... |
+| ------------                        | -----------------------------------    | ------------- |
+| Click or tap outside the shapes     | Changes the octave between 4, 5 and 6  | Remain unchanged
+| Move the pointer over a shape.      | Plays the next note in the melody      | The active shape becomes bigger and brighter
+| Move the pointer faster.            | Becomes louder                         | The active shape becomes bigger and brighter
+| Move the pointer away from a shape  | Stops playing                          | Returns to its original size and colour
+| Hold the pointer still over a shape | Continues playing the current note     | Becomes smaller and less bright as the speed decreases
 
 <!-- Anything else a player needs to know: how to get started, a good thing to try first. -->
 ---
